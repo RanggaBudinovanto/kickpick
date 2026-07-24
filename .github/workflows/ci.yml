@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+    branches: [main, staging]
+
+jobs:
+  backend:
+    name: Backend (Go)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: kickpick
+          POSTGRES_PASSWORD: kickpick_ci_pw
+          POSTGRES_DB: kickpick_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Run migrations against test database
+        env:
+          PGPASSWORD: kickpick_ci_pw
+        run: |
+          sudo apt-get update && sudo apt-get install -y postgresql-client
+          psql -U kickpick -h 127.0.0.1 -d kickpick_test -f internal/db/migrations/0001_init.up.sql
+          psql -U kickpick -h 127.0.0.1 -d kickpick_test -f internal/db/migrations/0002_product_views.up.sql
+
+      - name: Test
+        env:
+          TEST_DATABASE_URL: postgresql://kickpick:kickpick_ci_pw@127.0.0.1:5432/kickpick_test?sslmode=disable
+        run: go test ./... -v
+
+      - name: Build
+        run: go build ./...
+
+      - name: Vulnerability scan (govulncheck)
+        run: |
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          govulncheck ./...
+
+  frontend:
+    name: Frontend (Next.js)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit/component tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8080
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+
+      - name: Dependency audit
+        run: npm audit --audit-level=high || true
