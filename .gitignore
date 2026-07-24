@@ -39,3 +39,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI / Vibe Coding / Agents
+KickPick_PRD.md
+PENDING.md
+PLAN.md
+DESIGN.md
+AGENTS.md
+CLAUDE.md
+walkthrough.md
+implementation_plan.md
+task.md
+.agents/
+
