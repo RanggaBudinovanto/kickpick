@@ -21,6 +21,12 @@ WHERE base_currency = $1 AND target_currency = $2
 ORDER BY recorded_date DESC
 LIMIT 1;
 
+-- name: UpsertExchangeRate :exec
+INSERT INTO exchange_rates (base_currency, target_currency, rate, recorded_date)
+VALUES ($1, $2, $3, $4)
+ON CONFLICT (base_currency, target_currency, recorded_date)
+DO UPDATE SET rate = EXCLUDED.rate;
+
 -- name: SearchProductsAutocomplete :many
 SELECT id, name, slug
 FROM products

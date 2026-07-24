@@ -175,6 +175,30 @@ func (q *Queries) SearchProductsAutocomplete(ctx context.Context, query string) 
 	return items, nil
 }
 
+const upsertExchangeRate = `-- name: UpsertExchangeRate :exec
+INSERT INTO exchange_rates (base_currency, target_currency, rate, recorded_date)
+VALUES ($1, $2, $3, $4)
+ON CONFLICT (base_currency, target_currency, recorded_date)
+DO UPDATE SET rate = EXCLUDED.rate
+`
+
+type UpsertExchangeRateParams struct {
+	BaseCurrency   string         `json:"base_currency"`
+	TargetCurrency string         `json:"target_currency"`
+	Rate           pgtype.Numeric `json:"rate"`
+	RecordedDate   pgtype.Date    `json:"recorded_date"`
+}
+
+func (q *Queries) UpsertExchangeRate(ctx context.Context, arg UpsertExchangeRateParams) error {
+	_, err := q.db.Exec(ctx, upsertExchangeRate,
+		arg.BaseCurrency,
+		arg.TargetCurrency,
+		arg.Rate,
+		arg.RecordedDate,
+	)
+	return err
+}
+
 const upsertUserSizePreference = `-- name: UpsertUserSizePreference :one
 INSERT INTO user_size_preferences (user_id, brand_id, size)
 VALUES ($1, $2, $3)

@@ -8,6 +8,7 @@ import (
 	"github.com/robfig/cron/v3"
 
 	"github.com/kickpick/backend/internal/config"
+	"github.com/kickpick/backend/internal/exchangerate"
 	"github.com/kickpick/backend/internal/scraper"
 	"github.com/kickpick/backend/internal/scraper/registry"
 )
@@ -39,12 +40,29 @@ func Start(ctx context.Context, pool *pgxpool.Pool, cfg *config.Config, spec str
 		log.Println("[scheduler] scheduled scrape run complete")
 	}
 
+	// Runs before the scrape (02:00 vs 03:00) so a fresh rate is in place
+	// before /api/exchange-rate and the frontend's currency toggle are used
+	// during the day. A failed fetch just leaves the previous day's rate in
+	// place (GetLatestExchangeRate) rather than blocking anything.
+	runExchangeRate := func() {
+		log.Println("[scheduler] fetching daily exchange rate")
+		if err := exchangerate.FetchAndStore(ctx, pool); err != nil {
+			log.Printf("[scheduler] exchange rate fetch failed: %v", err)
+			return
+		}
+		log.Println("[scheduler] exchange rate updated")
+	}
+
 	c := cron.New()
 	if _, err := c.AddFunc(spec, runAll); err != nil {
 		return nil, err
 	}
+	if _, err := c.AddFunc("0 2 * * *", runExchangeRate); err != nil {
+		return nil, err
+	}
 
 	go runAll()
+	go runExchangeRate()
 
 	c.Start()
 	return c, nil

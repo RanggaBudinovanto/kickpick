@@ -64,6 +64,7 @@ type Querier interface {
 	UpdateProductOffer(ctx context.Context, arg UpdateProductOfferParams) error
 	UpdateUserPassword(ctx context.Context, arg UpdateUserPasswordParams) error
 	UpdateUserProfile(ctx context.Context, arg UpdateUserProfileParams) (User, error)
+	UpsertExchangeRate(ctx context.Context, arg UpsertExchangeRateParams) error
 	UpsertPriceHistoryToday(ctx context.Context, arg UpsertPriceHistoryTodayParams) error
 	UpsertProduct(ctx context.Context, arg UpsertProductParams) (Product, error)
 	UpsertUserSizePreference(ctx context.Context, arg UpsertUserSizePreferenceParams) (UserSizePreference, error)
