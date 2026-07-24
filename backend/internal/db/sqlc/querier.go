@@ -37,6 +37,7 @@ type Querier interface {
 	GetUserSizePreferences(ctx context.Context, userID pgtype.UUID) ([]UserSizePreference, error)
 	GetWishlistItem(ctx context.Context, id pgtype.UUID) (Wishlist, error)
 	InsertAuditLog(ctx context.Context, arg InsertAuditLogParams) error
+	ListActiveAlertSubscribersForProduct(ctx context.Context, productID pgtype.UUID) ([]ListActiveAlertSubscribersForProductRow, error)
 	ListBrands(ctx context.Context) ([]Brand, error)
 	ListNotificationsByUser(ctx context.Context, arg ListNotificationsByUserParams) ([]Notification, error)
 	ListOffersByProductID(ctx context.Context, productID pgtype.UUID) ([]ListOffersByProductIDRow, error)

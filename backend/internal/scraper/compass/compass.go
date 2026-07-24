@@ -46,6 +46,15 @@ func (a *Adapter) BrandSlug() string {
 }
 
 func (a *Adapter) Scrape(ctx context.Context) ([]scraper.ScrapedProduct, error) {
+	// Section 14 PRD: brands under scraping must be reviewed periodically, not
+	// just checked once by hand during development — this makes that an
+	// enforced pre-flight check on every run, so the adapter self-disables the
+	// moment the site's robots.txt changes to disallow us, rather than someone
+	// having to notice and update comments/code manually.
+	if err := scraper.CheckRobotsAllowed(shopURL, userAgent); err != nil {
+		return nil, fmt.Errorf("robots.txt check failed, refusing to scrape: %w", err)
+	}
+
 	c := colly.NewCollector(
 		colly.UserAgent(userAgent),
 	)

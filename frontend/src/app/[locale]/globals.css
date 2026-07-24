@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-off-black: #0a0a0a;
+  --color-pure-white: #ffffff;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-500: #71717a;
+  --color-zinc-800: #27272a;
+  --color-zinc-950: #09090b;
+
+  --background: var(--color-pure-white);
+  --foreground: var(--color-off-black);
+  --surface: var(--color-zinc-100);
+  --border-color: var(--color-zinc-100);
+  --muted: var(--color-zinc-500);
+}
+
+.dark {
+  --background: var(--color-off-black);
+  --foreground: var(--color-pure-white);
+  --surface: var(--color-zinc-800);
+  --border-color: var(--color-zinc-800);
+  --muted: var(--color-zinc-500);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-border: var(--border-color);
+  --color-muted: var(--muted);
+
+  --color-off-black: var(--color-off-black);
+  --color-pure-white: var(--color-pure-white);
+  --color-zinc-100: var(--color-zinc-100);
+  --color-zinc-500: var(--color-zinc-500);
+  --color-zinc-800: var(--color-zinc-800);
+  --color-zinc-950: var(--color-zinc-950);
+
+  --font-display: var(--font-barlow-condensed);
+  --font-sans: var(--font-barlow);
+  --font-mono: var(--font-mono-numeric);
+
+  --radius-card: 12px;
+  --radius-control: 8px;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+.font-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+
+.animate-shake {
+  animation: shake 0.3s;
+}

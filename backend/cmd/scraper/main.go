@@ -26,7 +26,11 @@ func main() {
 	}
 	defer pool.Close()
 
-	pipeline := scraper.NewPipeline(pool)
+	pipeline := scraper.NewPipeline(pool, scraper.PipelineConfig{
+		AppURL:       cfg.AppURL,
+		ResendAPIKey: cfg.ResendAPIKey,
+		EmailFrom:    cfg.EmailFrom,
+	})
 
 	for _, adapter := range registry.All() {
 		if err := pipeline.Run(ctx, adapter); err != nil {

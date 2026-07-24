@@ -7,6 +7,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/robfig/cron/v3"
 
+	"github.com/kickpick/backend/internal/config"
 	"github.com/kickpick/backend/internal/scraper"
 	"github.com/kickpick/backend/internal/scraper/registry"
 )
@@ -16,12 +17,16 @@ import (
 // deploy doesn't wait a full day for its first data). Section 10/19 PRD: job
 // scheduler for daily price updates.
 //
-// No Redis/Asynq here (PENDING.md) — Asynq needs Redis, which isn't installed
-// in this environment. robfig/cron running in-process is a reasonable
-// single-instance interim; revisit if KickPick ever runs multiple backend
-// instances, since two instances would each fire their own cron independently.
-func Start(ctx context.Context, pool *pgxpool.Pool, spec string) (*cron.Cron, error) {
-	pipeline := scraper.NewPipeline(pool)
+// Still robfig/cron in-process rather than Redis-backed Asynq (PENDING.md) —
+// Redis is available now (used for rate limiting), but switching the job
+// queue itself is a separate, larger change not done yet. Fine for a single
+// backend instance; two instances would each fire their own cron independently.
+func Start(ctx context.Context, pool *pgxpool.Pool, cfg *config.Config, spec string) (*cron.Cron, error) {
+	pipeline := scraper.NewPipeline(pool, scraper.PipelineConfig{
+		AppURL:       cfg.AppURL,
+		ResendAPIKey: cfg.ResendAPIKey,
+		EmailFrom:    cfg.EmailFrom,
+	})
 	adapters := registry.All()
 
 	runAll := func() {

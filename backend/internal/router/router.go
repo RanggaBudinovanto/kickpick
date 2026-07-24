@@ -23,10 +23,19 @@ import (
 // instances (Section 19 PRD). Falls back to Fiber's default in-memory storage
 // otherwise — fine for single-instance/local dev, but each instance would
 // count independently in a multi-instance deployment without Redis.
-func newLimiterConfig(cfg *config.Config, max int, expiration time.Duration) limiter.Config {
+//
+// name namespaces the storage key (Fiber's default KeyGenerator is bare
+// c.IP(), so without a prefix every limiter instance sharing one Redis
+// backend collides on the same key — general page traffic counted by the
+// global 100/min limiter was silently exhausting the auth-specific 10/min
+// budget before this fix, since both wrote to the same "<ip>" key).
+func newLimiterConfig(cfg *config.Config, name string, max int, expiration time.Duration) limiter.Config {
 	lc := limiter.Config{
 		Max:        max,
 		Expiration: expiration,
+		KeyGenerator: func(c *fiber.Ctx) string {
+			return name + ":" + c.IP()
+		},
 	}
 
 	if cfg.RedisURL != "" {
@@ -63,7 +72,7 @@ func New(cfg *config.Config, pool *pgxpool.Pool) *fiber.App {
 		log.Println("rate limiting: REDIS_URL not set, using in-memory storage (fine for single-instance/local dev only)")
 	}
 
-	app.Use(limiter.New(newLimiterConfig(cfg, 100, 1*time.Minute)))
+	app.Use(limiter.New(newLimiterConfig(cfg, "global", 100, 1*time.Minute)))
 
 	app.Get("/health", handler.Health)
 
@@ -80,12 +89,17 @@ func New(cfg *config.Config, pool *pgxpool.Pool) *fiber.App {
 	reviewHandler := handler.NewReviewHandler(pool)
 	profileHandler := handler.NewProfileHandler(pool)
 	redirectHandler := handler.NewRedirectHandler(pool)
+	exchangeRateHandler := handler.NewExchangeRateHandler(pool)
 
 	requireAuth := appmw.RequireAuth(cfg.JWTAccessSecret)
 	requireCSRF := appmw.RequireCSRFHeader()
 
-	// Stricter rate limit for auth + redirect endpoints (brute force / affiliate-click abuse protection).
-	authLimiter := limiter.New(newLimiterConfig(cfg, 10, 1*time.Minute))
+	// Separate limiter instances per concern — sharing one instance across auth
+	// AND redirect would mean a burst of affiliate clicks could lock a user out
+	// of login, and vice versa (found via E2E tests all logging in against a
+	// shared IP tripping each other's budget).
+	authLimiter := limiter.New(newLimiterConfig(cfg, "auth", 10, 1*time.Minute))
+	redirectLimiter := limiter.New(newLimiterConfig(cfg, "redirect", 30, 1*time.Minute))
 
 	api := app.Group("/api")
 
@@ -107,8 +121,9 @@ func New(cfg *config.Config, pool *pgxpool.Pool) *fiber.App {
 	api.Get("/brands", productHandler.ListBrands)
 	api.Get("/brands/:slug", productHandler.GetBrandBySlug)
 	api.Get("/search/autocomplete", productHandler.Autocomplete)
+	api.Get("/exchange-rate", exchangeRateHandler.GetIDRToUSD)
 
-	api.Post("/redirect/:offer_id", authLimiter, requireCSRF, redirectHandler.GoToOffer)
+	api.Post("/redirect/:offer_id", redirectLimiter, requireCSRF, redirectHandler.GoToOffer)
 
 	api.Post("/reviews", requireAuth, requireCSRF, reviewHandler.Create)
 	api.Post("/reviews/:id/report", requireAuth, requireCSRF, reviewHandler.Report)

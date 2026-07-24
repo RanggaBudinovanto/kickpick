@@ -1,0 +1,123 @@
+{
+  "Nav": {
+    "search": "Search",
+    "brand": "Brand",
+    "drops": "Drops & Alerts",
+    "wishlist": "Wishlist",
+    "notifications": "Notifications",
+    "login": "Log in",
+    "searchPlaceholder": "Search shoes, brands, or colors"
+  },
+  "Footer": {
+    "categories": "Categories",
+    "brands": "Brands",
+    "about": "About",
+    "faq": "FAQ",
+    "privacy": "Privacy Policy",
+    "disclosure": "Affiliate Disclosure",
+    "subscribeTitle": "Get price drop updates",
+    "subscribePlaceholder": "Your email address",
+    "subscribeCta": "Subscribe",
+    "rights": "All rights reserved."
+  },
+  "Home": {
+    "heroHeadline": "Compare shoe prices across every brand, in one place",
+    "heroSubtext": "Comparing prices from {count}+ local & international brands",
+    "heroCta": "Search shoes",
+    "browseBrands": "Browse brands"
+  },
+  "Theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "Currency": {
+    "idr": "Rupiah (IDR)",
+    "usd": "US Dollar (USD)"
+  },
+  "Auth": {
+    "loginTitle": "Log in to KickPick",
+    "registerTitle": "Create a KickPick account",
+    "forgotTitle": "Forgot password",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Name",
+    "loginCta": "Log in",
+    "registerCta": "Sign up",
+    "forgotCta": "Send reset instructions",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "registerLink": "Sign up now",
+    "loginLink": "Log in here",
+    "forgotLink": "Forgot password?",
+    "emailInvalid": "Invalid email format",
+    "passwordMin": "Password must be at least 8 characters",
+    "passwordMismatch": "Password confirmation doesn't match",
+    "nameRequired": "Name is required",
+    "registerSuccess": "Registration successful, check your email to verify",
+    "forgotSuccess": "If the email is registered, reset instructions have been sent"
+  },
+  "Product": {
+    "cheapest": "Cheapest",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "buy": "Buy",
+    "activateAlert": "Activate Restock Alert",
+    "addToWishlist": "Save to Wishlist",
+    "removeFromWishlist": "Remove from Wishlist",
+    "priceHistory": "Price History",
+    "days30": "30 Days",
+    "days90": "90 Days",
+    "notEnoughHistory": "History data is still being collected",
+    "sizeConverter": "Size Converter",
+    "sizeConverterDisclaimer": "Estimate based on community data, may vary by model",
+    "referenceBrand": "Reference brand",
+    "yourSize": "Your size",
+    "convertedSize": "Equivalent size",
+    "reviews": "Community Reviews",
+    "noReviews": "No reviews for this product yet",
+    "writeReview": "Write a review",
+    "rating": "Rating",
+    "comment": "Comment",
+    "fitFeedback": "Fit",
+    "fitSmall": "Runs small",
+    "fitTrue": "True to size",
+    "fitBig": "Runs big",
+    "submitReview": "Submit review",
+    "reviewSubmitted": "Review submitted, pending moderation",
+    "loginToReview": "Log in to write a review",
+    "report": "Report",
+    "reportSubmitted": "Report received",
+    "noOffers": "No pricing data available for this product yet"
+  },
+  "About": {
+    "title": "About KickPick",
+    "intro": "KickPick compares shoe prices from local and international brands in one place, so you don't have to open dozens of tabs to find the best price.",
+    "faqTitle": "Frequently Asked Questions",
+    "faq1Q": "Does KickPick sell shoes directly?",
+    "faq1A": "No. KickPick only compares prices and directs you to the official store or marketplace to complete your purchase.",
+    "faq2Q": "How does KickPick get its price data?",
+    "faq2A": "Data is collected automatically from official brand sites and marketplaces through a scheduled system, updated regularly.",
+    "faq3Q": "Does KickPick earn commission from purchase clicks?",
+    "faq3A": "Yes, KickPick earns affiliate commission from some listed stores. See the Affiliate Disclosure page for full details.",
+    "faq4Q": "Why can prices on KickPick differ from the original store?",
+    "faq4A": "Prices update automatically on a schedule, so there can be a short delay compared to real-time price changes at the original store."
+  },
+  "Privacy": {
+    "title": "Privacy Policy",
+    "intro": "This policy explains what data KickPick collects and how it's used, in line with Indonesia's Personal Data Protection Law (UU PDP).",
+    "section1Title": "Data We Collect",
+    "section1Body": "We collect your email, name, size preferences, search history, and saved wishlist when you use a registered account.",
+    "section2Title": "How We Use Data",
+    "section2Body": "Data is used to personalize recommendations, send restock/price-drop alerts, and improve size conversion accuracy.",
+    "section3Title": "Data Security",
+    "section3Body": "Passwords are stored hashed, login sessions use tokens that expire automatically, and all API connections run over HTTPS.",
+    "section4Title": "Your Rights",
+    "section4Body": "You can access, update, or delete your data at any time from the Profile page."
+  },
+  "Disclosure": {
+    "title": "Affiliate Disclosure",
+    "body1": "KickPick is a price comparison platform that earns part of its revenue from affiliate commissions. When you click Buy and complete a purchase at the destination store, KickPick may receive a commission from that store or its affiliate network, at no extra cost to you.",
+    "body2": "This commission does not influence the order or selection of stores shown in the price comparison. The cheapest store is always marked objectively based on actual price data, not on the size of the affiliate commission."
+  }
+}

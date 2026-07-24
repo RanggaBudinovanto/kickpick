@@ -36,7 +36,7 @@ func main() {
 	}
 	defer pool.Close()
 
-	cronJob, err := scheduler.Start(ctx, pool, spec)
+	cronJob, err := scheduler.Start(ctx, pool, cfg, spec)
 	if err != nil {
 		log.Fatalf("gagal start scheduler: %v", err)
 	}

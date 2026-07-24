@@ -1,0 +1,123 @@
+{
+  "Nav": {
+    "search": "Cari",
+    "brand": "Brand",
+    "drops": "Drops & Alert",
+    "wishlist": "Wishlist",
+    "notifications": "Notifikasi",
+    "login": "Masuk",
+    "searchPlaceholder": "Cari sepatu, brand, atau warna"
+  },
+  "Footer": {
+    "categories": "Kategori",
+    "brands": "Brand",
+    "about": "Tentang",
+    "faq": "FAQ",
+    "privacy": "Kebijakan Privasi",
+    "disclosure": "Disclosure Affiliate",
+    "subscribeTitle": "Dapatkan info penurunan harga",
+    "subscribePlaceholder": "Alamat email kamu",
+    "subscribeCta": "Langganan",
+    "rights": "Seluruh hak cipta dilindungi."
+  },
+  "Home": {
+    "heroHeadline": "Bandingkan harga sepatu dari semua brand, dalam satu tempat",
+    "heroSubtext": "Membandingkan harga dari {count}+ brand lokal & internasional",
+    "heroCta": "Cari sepatu",
+    "browseBrands": "Jelajahi brand"
+  },
+  "Theme": {
+    "light": "Terang",
+    "dark": "Gelap"
+  },
+  "Currency": {
+    "idr": "Rupiah (IDR)",
+    "usd": "Dolar (USD)"
+  },
+  "Auth": {
+    "loginTitle": "Masuk ke KickPick",
+    "registerTitle": "Buat akun KickPick",
+    "forgotTitle": "Lupa password",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Konfirmasi Password",
+    "name": "Nama",
+    "loginCta": "Masuk",
+    "registerCta": "Daftar",
+    "forgotCta": "Kirim instruksi reset",
+    "noAccount": "Belum punya akun?",
+    "haveAccount": "Sudah punya akun?",
+    "registerLink": "Daftar sekarang",
+    "loginLink": "Masuk di sini",
+    "forgotLink": "Lupa password?",
+    "emailInvalid": "Format email tidak valid",
+    "passwordMin": "Password minimal 8 karakter",
+    "passwordMismatch": "Konfirmasi password tidak cocok",
+    "nameRequired": "Nama wajib diisi",
+    "registerSuccess": "Registrasi berhasil, cek email kamu untuk verifikasi",
+    "forgotSuccess": "Jika email terdaftar, instruksi reset sudah dikirim"
+  },
+  "Product": {
+    "cheapest": "Termurah",
+    "inStock": "Tersedia",
+    "outOfStock": "Habis",
+    "buy": "Beli",
+    "activateAlert": "Aktifkan Alert Restock",
+    "addToWishlist": "Simpan ke Wishlist",
+    "removeFromWishlist": "Hapus dari Wishlist",
+    "priceHistory": "Histori Harga",
+    "days30": "30 Hari",
+    "days90": "90 Hari",
+    "notEnoughHistory": "Data histori masih terkumpul",
+    "sizeConverter": "Konversi Ukuran",
+    "sizeConverterDisclaimer": "Estimasi berdasarkan data komunitas, bisa bervariasi per model",
+    "referenceBrand": "Brand referensi",
+    "yourSize": "Ukuran kamu",
+    "convertedSize": "Ukuran setara",
+    "reviews": "Review Komunitas",
+    "noReviews": "Belum ada review untuk produk ini",
+    "writeReview": "Tulis review",
+    "rating": "Rating",
+    "comment": "Komentar",
+    "fitFeedback": "Kepas-an",
+    "fitSmall": "Kekecilan",
+    "fitTrue": "Pas",
+    "fitBig": "Kebesaran",
+    "submitReview": "Kirim review",
+    "reviewSubmitted": "Review berhasil dikirim, menunggu moderasi",
+    "loginToReview": "Masuk untuk menulis review",
+    "report": "Laporkan",
+    "reportSubmitted": "Laporan diterima",
+    "noOffers": "Belum ada data harga untuk produk ini"
+  },
+  "About": {
+    "title": "Tentang KickPick",
+    "intro": "KickPick membandingkan harga sepatu dari brand lokal dan internasional dalam satu tempat, supaya kamu tidak perlu buka puluhan tab untuk cari harga terbaik.",
+    "faqTitle": "Pertanyaan Umum",
+    "faq1Q": "Apakah KickPick menjual sepatu sendiri?",
+    "faq1A": "Tidak. KickPick hanya membandingkan harga dan mengarahkan kamu ke toko resmi atau marketplace untuk menyelesaikan pembelian.",
+    "faq2Q": "Bagaimana KickPick mendapatkan data harga?",
+    "faq2A": "Data dikumpulkan otomatis dari situs resmi brand dan marketplace lewat sistem terjadwal, diperbarui secara berkala.",
+    "faq3Q": "Apakah KickPick mendapat komisi dari klik beli?",
+    "faq3A": "Ya, KickPick mendapat komisi affiliate dari sebagian toko yang tercantum. Lihat halaman Disclosure Affiliate untuk detail lengkap.",
+    "faq4Q": "Kenapa harga di KickPick bisa berbeda dari toko asli?",
+    "faq4A": "Harga diperbarui otomatis secara berkala, tapi bisa ada jeda singkat dibanding perubahan harga real-time di toko asli."
+  },
+  "Privacy": {
+    "title": "Kebijakan Privasi",
+    "intro": "Kebijakan ini menjelaskan data apa yang KickPick kumpulkan dan bagaimana data tersebut digunakan, sesuai UU Perlindungan Data Pribadi (PDP) Indonesia.",
+    "section1Title": "Data yang Dikumpulkan",
+    "section1Body": "Kami mengumpulkan email, nama, preferensi ukuran, riwayat pencarian, dan wishlist yang kamu simpan saat menggunakan akun terdaftar.",
+    "section2Title": "Penggunaan Data",
+    "section2Body": "Data dipakai untuk personalisasi rekomendasi, mengirim alert restock/penurunan harga, dan meningkatkan akurasi konversi ukuran.",
+    "section3Title": "Keamanan Data",
+    "section3Body": "Password disimpan dalam bentuk hash, sesi login memakai token yang expired otomatis, dan seluruh koneksi API berjalan lewat HTTPS.",
+    "section4Title": "Hak Pengguna",
+    "section4Body": "Kamu berhak mengakses, mengubah, atau menghapus datamu kapan saja lewat halaman Profil."
+  },
+  "Disclosure": {
+    "title": "Disclosure Affiliate",
+    "body1": "KickPick adalah platform perbandingan harga yang mendapatkan sebagian pendapatan dari komisi affiliate. Saat kamu klik tombol Beli dan menyelesaikan transaksi di toko tujuan, KickPick bisa menerima komisi dari toko atau jaringan affiliate terkait, tanpa biaya tambahan untuk kamu.",
+    "body2": "Komisi ini tidak memengaruhi urutan atau pemilihan toko yang ditampilkan di halaman perbandingan harga. Toko dengan harga termurah selalu ditandai secara objektif berdasarkan data harga aktual, bukan berdasarkan besar-kecilnya komisi affiliate."
+  }
+}

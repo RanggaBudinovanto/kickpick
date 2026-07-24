@@ -25,3 +25,9 @@ UPDATE wishlists
 SET alert_active = $3, alert_type = $4
 WHERE id = $1 AND user_id = $2
 RETURNING *;
+
+-- name: ListActiveAlertSubscribersForProduct :many
+SELECT w.id AS wishlist_id, w.alert_type, u.id AS user_id, u.email, u.name
+FROM wishlists w
+JOIN users u ON u.id = w.user_id
+WHERE w.product_id = $1 AND w.alert_active = true AND u.deleted_at IS NULL;

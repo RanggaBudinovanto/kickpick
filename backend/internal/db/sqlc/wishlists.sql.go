@@ -64,6 +64,47 @@ func (q *Queries) GetWishlistItem(ctx context.Context, id pgtype.UUID) (Wishlist
 	return i, err
 }
 
+const listActiveAlertSubscribersForProduct = `-- name: ListActiveAlertSubscribersForProduct :many
+SELECT w.id AS wishlist_id, w.alert_type, u.id AS user_id, u.email, u.name
+FROM wishlists w
+JOIN users u ON u.id = w.user_id
+WHERE w.product_id = $1 AND w.alert_active = true AND u.deleted_at IS NULL
+`
+
+type ListActiveAlertSubscribersForProductRow struct {
+	WishlistID pgtype.UUID `json:"wishlist_id"`
+	AlertType  pgtype.Text `json:"alert_type"`
+	UserID     pgtype.UUID `json:"user_id"`
+	Email      string      `json:"email"`
+	Name       string      `json:"name"`
+}
+
+func (q *Queries) ListActiveAlertSubscribersForProduct(ctx context.Context, productID pgtype.UUID) ([]ListActiveAlertSubscribersForProductRow, error) {
+	rows, err := q.db.Query(ctx, listActiveAlertSubscribersForProduct, productID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ListActiveAlertSubscribersForProductRow{}
+	for rows.Next() {
+		var i ListActiveAlertSubscribersForProductRow
+		if err := rows.Scan(
+			&i.WishlistID,
+			&i.AlertType,
+			&i.UserID,
+			&i.Email,
+			&i.Name,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listWishlistByUser = `-- name: ListWishlistByUser :many
 SELECT w.id, w.user_id, w.product_id, w.alert_active, w.alert_type, w.created_at, p.name AS product_name, p.slug AS product_slug, p.brand_id
 FROM wishlists w
