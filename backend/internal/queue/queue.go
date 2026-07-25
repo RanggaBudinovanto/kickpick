@@ -47,12 +47,14 @@ func NewExchangeRateFetchTask() *asynq.Task {
 // register them on an asynq.ServeMux without reaching for globals.
 type Handlers struct {
 	pool     *pgxpool.Pool
+	cfg      *config.Config
 	pipeline *scraper.Pipeline
 }
 
 func NewHandlers(pool *pgxpool.Pool, cfg *config.Config) *Handlers {
 	return &Handlers{
 		pool: pool,
+		cfg:  cfg,
 		pipeline: scraper.NewPipeline(pool, scraper.PipelineConfig{
 			AppURL:       cfg.AppURL,
 			ResendAPIKey: cfg.ResendAPIKey,
@@ -67,7 +69,7 @@ func NewHandlers(pool *pgxpool.Pool, cfg *config.Config) *Handlers {
 // next scheduled run is the natural retry, same as the old cron behavior.
 func (h *Handlers) HandleScrapeRun(ctx context.Context, _ *asynq.Task) error {
 	log.Println("[queue] starting scrape run")
-	for _, adapter := range registry.All() {
+	for _, adapter := range registry.All(h.cfg) {
 		if err := h.pipeline.Run(ctx, adapter); err != nil {
 			log.Printf("[queue] scrape run failed for %s: %v", adapter.BrandSlug(), err)
 		}

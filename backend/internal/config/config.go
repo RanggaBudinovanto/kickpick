@@ -17,6 +17,12 @@ type Config struct {
 	CORSAllowedOrigin string
 	ResendAPIKey      string
 	EmailFrom         string
+	// ShopeePartnerID/ShopeePartnerKey are unset until a Shopee Affiliate
+	// Program/Open Platform account is approved (PENDING.md) — the shopee
+	// adapter (internal/scraper/shopee) checks Configured() and stays
+	// inactive rather than error on every scheduled run until then.
+	ShopeePartnerID  string
+	ShopeePartnerKey string
 }
 
 func Load() *Config {
@@ -33,6 +39,8 @@ func Load() *Config {
 		CORSAllowedOrigin: getEnv("CORS_ALLOWED_ORIGIN", "http://localhost:3000"),
 		ResendAPIKey:      getEnv("RESEND_API_KEY", ""),
 		EmailFrom:         getEnv("EMAIL_FROM", "KickPick <noreply@kickpick.id>"),
+		ShopeePartnerID:   getEnv("SHOPEE_PARTNER_ID", ""),
+		ShopeePartnerKey:  getEnv("SHOPEE_PARTNER_KEY", ""),
 	}
 }
 

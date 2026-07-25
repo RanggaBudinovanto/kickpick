@@ -32,7 +32,7 @@ func main() {
 		EmailFrom:    cfg.EmailFrom,
 	})
 
-	for _, adapter := range registry.All() {
+	for _, adapter := range registry.All(cfg) {
 		if err := pipeline.Run(ctx, adapter); err != nil {
 			log.Printf("scrape run failed for %s: %v", adapter.BrandSlug(), err)
 		}

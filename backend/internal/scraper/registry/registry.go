@@ -9,12 +9,25 @@
 package registry
 
 import (
+	"github.com/kickpick/backend/internal/config"
 	"github.com/kickpick/backend/internal/scraper"
 	"github.com/kickpick/backend/internal/scraper/compass"
+	"github.com/kickpick/backend/internal/scraper/shopee"
 )
 
-func All() []scraper.Adapter {
-	return []scraper.Adapter{
+// All returns every adapter that's ready to actually run. The shopee adapter
+// only gets included once its credentials are configured (PENDING.md) — it
+// can't do anything yet, so registering it unconditionally would just log
+// the same "not configured" error on every scheduled run for no benefit.
+func All(cfg *config.Config) []scraper.Adapter {
+	adapters := []scraper.Adapter{
 		compass.New(),
 	}
+
+	shopeeCfg := shopee.Config{PartnerID: cfg.ShopeePartnerID, PartnerKey: cfg.ShopeePartnerKey}
+	if shopeeCfg.Configured() {
+		adapters = append(adapters, shopee.New(shopeeCfg))
+	}
+
+	return adapters
 }
