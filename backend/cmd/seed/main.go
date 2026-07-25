@@ -62,6 +62,16 @@ func seedBrands(ctx context.Context, pool *pgxpool.Pool) map[string]uuid.UUID {
 		{"Nike", "nike", false},
 		{"Adidas", "adidas", false},
 		{"Vans", "vans", false},
+		{"Jordan", "jordan", false},
+		{"New Balance", "new-balance", false},
+		{"Puma", "puma", false},
+		{"Asics", "asics", false},
+		{"On", "on", false},
+		{"Under Armour", "under-armour", false},
+		{"Crocs", "crocs", false},
+		{"Mizuno", "mizuno", false},
+		{"Geoff Max", "geoffmax", true},
+		{"Brodo", "brodo", true},
 	}
 
 	ids := make(map[string]uuid.UUID, len(brands))
