@@ -21,6 +21,7 @@ function ProfileContent() {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (profile) setName(profile.name);
   }, [profile]);
 
