@@ -1,29 +1,29 @@
 import { test, expect } from "@playwright/test";
 
 async function login(page: import("@playwright/test").Page) {
-  await page.goto("/id/login");
+  await page.goto("/en/login");
   await page.getByLabel("Email").fill("demo@kickpick.id");
   await page.getByLabel("Password").fill("Password123");
-  await page.getByRole("button", { name: "Masuk" }).click();
-  await expect(page).toHaveURL(/\/id\/?$/);
+  await page.getByRole("button", { name: "Log in" }).click();
+  await expect(page).toHaveURL(/\/en\/?$/);
 }
 
 // Critical path per Section 20 PRD: Login -> tambah wishlist -> aktifkan alert.
 test.describe("Wishlist and alert", () => {
   test("guest is redirected to login when trying to save a product", async ({ page }) => {
-    await page.goto("/id/cari");
+    await page.goto("/en/cari");
     await page.locator("a[href*='/produk/']").first().click();
 
-    await page.getByRole("link", { name: /simpan ke wishlist/i }).click();
-    await expect(page).toHaveURL(/\/id\/login/);
+    await page.getByRole("link", { name: /save to wishlist/i }).click();
+    await expect(page).toHaveURL(/\/en\/login/);
   });
 
   test("logged-in user can add a product to wishlist and activate an alert", async ({ page }) => {
     await login(page);
 
-    await page.goto("/id/cari");
+    await page.goto("/en/cari");
     await page.locator("a[href*='/produk/']").first().click();
-    await expect(page).toHaveURL(/\/id\/produk\//);
+    await expect(page).toHaveURL(/\/en\/produk\//);
 
     // The demo account's wishlist persists across test runs, so this product
     // may already be saved from a previous run — don't assume a fresh start.
@@ -33,8 +33,8 @@ test.describe("Wishlist and alert", () => {
     // is available rather than resetting-then-setting, since two round trips
     // in one test doubles the flakiness surface for no real extra coverage —
     // one toggle already proves the add/remove mechanism works.
-    const removeButton = page.getByRole("button", { name: /hapus dari wishlist/i });
-    const addButton = page.getByRole("button", { name: /simpan ke wishlist/i });
+    const removeButton = page.getByRole("button", { name: /remove from wishlist/i });
+    const addButton = page.getByRole("button", { name: /save to wishlist/i });
     await expect(removeButton.or(addButton)).toBeVisible();
 
     if (await addButton.isVisible()) {
@@ -45,9 +45,16 @@ test.describe("Wishlist and alert", () => {
       await expect(addButton).toBeVisible();
     }
 
-    await page.goto("/id/wishlist");
+    await page.goto("/en/wishlist");
     const firstAlertCheckbox = page.getByRole("checkbox", { name: "Alert" }).first();
     await expect(firstAlertCheckbox).toBeVisible();
+    
+    // Ensure we test the checking transition cleanly even if already checked from previous run
+    if (await firstAlertCheckbox.isChecked()) {
+      await firstAlertCheckbox.uncheck();
+      await expect(firstAlertCheckbox).not.toBeChecked();
+    }
+    
     await firstAlertCheckbox.check();
     await expect(firstAlertCheckbox).toBeChecked();
   });

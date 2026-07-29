@@ -13,6 +13,7 @@ export interface Product {
   currency: string;
   rating: number;
   image_url: string;
+  drop_percent?: number;
 }
 
 export interface Offer {
@@ -32,6 +33,7 @@ export interface Review {
   comment: string;
   fit_feedback: string;
   user_name: string;
+  user_id?: string;
   created_at: string;
 }
 

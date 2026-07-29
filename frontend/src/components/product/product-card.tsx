@@ -21,7 +21,7 @@ export function ProductCard({ product, badge }: { product: Product; badge?: stri
             />
           ) : (
             <div className="flex h-full items-center justify-center text-xs text-muted">
-              Tidak ada foto
+              No photo
             </div>
           )}
           {badge && (
@@ -35,7 +35,7 @@ export function ProductCard({ product, badge }: { product: Product; badge?: stri
             {product.brand_name}
           </p>
           <h3 className="mb-1 truncate text-sm font-medium">{product.name}</h3>
-          <p className="font-mono text-base font-bold tabular-nums">
+          <p className="font-display text-base font-bold tracking-tight tabular-nums">
             <PriceDisplay min={product.min_price} max={product.max_price} />
           </p>
           <p className="mt-1 flex items-center gap-1 text-xs text-muted">
@@ -47,7 +47,7 @@ export function ProductCard({ product, badge }: { product: Product; badge?: stri
             ) : (
               <>
                 <IconStar size={12} />
-                Belum ada rating
+                No ratings yet
               </>
             )}
           </p>

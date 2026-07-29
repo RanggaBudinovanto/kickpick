@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { IconBell, IconHeart, IconMenu2, IconSearch, IconUser, IconX } from "@tabler/icons-react";
+import { IconBell, IconHeart, IconMenu2, IconUser, IconX } from "@tabler/icons-react";
 import { Link } from "@/i18n/navigation";
-import { Input } from "@/components/ui/input";
+import { NavSearch } from "@/components/layout/nav-search";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { PreferenceSwitcher } from "@/components/layout/preference-switcher";
 import { useAuthStore } from "@/stores/auth";
@@ -20,18 +21,19 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-4 px-4 md:px-6">
-        <Link href="/" className="font-display text-xl font-bold tracking-[-0.01em]">
-          KickPick
+        <Link href="/" className="shrink-0" aria-label="KickPick">
+          <Image
+            src="/logo-wordmark.png"
+            alt="KickPick"
+            width={140}
+            height={49}
+            priority
+            className="h-6 w-auto dark:invert"
+          />
         </Link>
 
         <div className="hidden flex-1 max-w-md md:block">
-          <div className="relative">
-            <IconSearch
-              size={18}
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"
-            />
-            <Input placeholder={t("searchPlaceholder")} className="pl-10" />
-          </div>
+          <NavSearch />
         </div>
 
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
@@ -100,12 +102,8 @@ export function Navbar() {
 
       {mobileOpen && (
         <div className="border-t border-border px-4 py-4 md:hidden">
-          <div className="relative mb-4">
-            <IconSearch
-              size={18}
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"
-            />
-            <Input placeholder={t("searchPlaceholder")} className="pl-10" />
+          <div className="mb-4">
+            <NavSearch />
           </div>
           <nav className="flex flex-col gap-1 text-sm font-medium">
             <Link href="/cari" className="rounded-[var(--radius-control)] px-2 py-2 hover:bg-surface">

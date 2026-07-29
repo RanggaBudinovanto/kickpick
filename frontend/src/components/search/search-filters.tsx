@@ -44,7 +44,7 @@ export function SearchFilters({ brands }: { brands: Brand[] }) {
           htmlFor="filter-kategori"
           className="mb-2 block text-xs font-medium uppercase tracking-[0.01em] text-muted"
         >
-          Kategori
+          Category
         </label>
         <select
           id="filter-kategori"
@@ -52,7 +52,7 @@ export function SearchFilters({ brands }: { brands: Brand[] }) {
           onChange={(e) => updateFilter("kategori", e.target.value)}
           className="h-10 w-full rounded-[var(--radius-control)] border border-zinc-500/40 bg-background px-3 text-sm"
         >
-          <option value="">Semua kategori</option>
+          <option value="">All categories</option>
           {CATEGORIES.map((c) => (
             <option key={c} value={c}>
               {c.charAt(0).toUpperCase() + c.slice(1)}
@@ -85,7 +85,7 @@ export function SearchFilters({ brands }: { brands: Brand[] }) {
           checked={filter === "rare"}
           onChange={(e) => updateFilter("filter", e.target.checked ? "rare" : "")}
         />
-        Rare / Limited saja
+        Rare / Limited only
       </label>
 
       <Button variant="ghost" size="sm" className="mt-5 w-full" onClick={resetFilters}>

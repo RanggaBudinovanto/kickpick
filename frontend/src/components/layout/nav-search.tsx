@@ -5,10 +5,12 @@ import { useTranslations } from "next-intl";
 import { IconSearch } from "@tabler/icons-react";
 import { useRouter } from "@/i18n/navigation";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { useAutocomplete } from "@/hooks/use-products";
 
-export function HeroSearch() {
+// Compact search used in the navbar (moved here from the old hero — DESIGN.md
+// § 5 revision moves search out of the hero banner). Submits on Enter rather
+// than a separate button, since navbar height doesn't have room for one.
+export function NavSearch() {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const router = useRouter();
@@ -19,20 +21,23 @@ export function HeroSearch() {
 
   function submit(q: string) {
     if (!q.trim()) return;
+    setFocused(false);
     router.push(`/cari?q=${encodeURIComponent(q)}`);
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           submit(query);
         }}
-        className="flex gap-2"
       >
-        <div className="relative flex-1">
-          <IconSearch size={18} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+        <div className="relative">
+          <IconSearch
+            size={18}
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"
+          />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -42,7 +47,6 @@ export function HeroSearch() {
             className="pl-10"
           />
         </div>
-        <Button type="submit">{t("search")}</Button>
       </form>
 
       {focused && suggestions.length > 0 && (

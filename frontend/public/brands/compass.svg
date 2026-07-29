@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80">
+      <circle cx="40" cy="40" r="25" fill="none" stroke="black" stroke-width="4"/>
+      <path d="M 40 15 L 45 35 L 65 40 L 45 45 L 40 65 L 35 45 L 15 40 L 35 35 Z" fill="black"/>
+      <text x="80" y="48" font-family="system-ui, sans-serif" font-size="22" font-weight="900" letter-spacing="4" fill="black">COMPASS</text>
+    </svg>

@@ -22,9 +22,10 @@
   },
   "Home": {
     "heroHeadline": "Compare shoe prices across every brand, in one place",
-    "heroSubtext": "Comparing prices from {count}+ local & international brands",
-    "heroCta": "Search shoes",
-    "browseBrands": "Browse brands"
+    "infoStripSources": "13 Verified Price Sources",
+    "infoStripDaily": "Auto-Updated Every Day",
+    "infoStripNoAds": "No Ads, No Bias",
+    "curatedTitle": "Featured Brands"
   },
   "Theme": {
     "light": "Light",

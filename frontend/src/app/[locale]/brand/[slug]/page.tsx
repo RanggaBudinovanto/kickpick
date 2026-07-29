@@ -12,17 +12,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const data = await getBrandDetail(slug);
 
   if (!data) {
-    return { title: "Brand tidak ditemukan | KickPick" };
+    return { title: "Brand not found | KickPick" };
   }
 
   return {
-    title: `${data.brand.name} - Bandingkan Harga | KickPick`,
-    description: `Bandingkan harga produk ${data.brand.name} dari berbagai toko di KickPick.`,
+    title: `${data.brand.name} - Compare Prices | KickPick`,
+    description: `Compare prices for ${data.brand.name} products from various stores on KickPick.`,
     alternates: {
       languages: {
         id: `/id/brand/${slug}`,
         en: `/en/brand/${slug}`,
-        "x-default": `/id/brand/${slug}`,
+        "x-default": `/en/brand/${slug}`,
       },
     },
   };
@@ -41,7 +41,7 @@ export default async function BrandDetailPage({ params }: PageProps) {
       <h1 className="mb-6 font-display text-3xl font-bold tracking-[-0.01em]">{data.brand.name}</h1>
 
       {data.products.length === 0 ? (
-        <p className="text-sm text-muted">Belum ada produk untuk brand ini.</p>
+        <p className="text-sm text-muted">No products found for this brand yet.</p>
       ) : (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {data.products.map((product) => (

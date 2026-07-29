@@ -1,10 +1,41 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { IconHeartOff } from "@tabler/icons-react";
 import { AuthGuard } from "@/components/auth/auth-guard";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { useRemoveWishlist, useSetWishlistAlert, useWishlist } from "@/hooks/use-wishlist";
+
+interface WishlistAlertCheckboxProps {
+  item: {
+    id: string;
+    alert_active: boolean;
+  };
+  onMutate: (params: { id: string; alertActive: boolean; alertType: string }) => void;
+}
+
+function WishlistAlertCheckbox({ item, onMutate }: WishlistAlertCheckboxProps) {
+  const [checked, setChecked] = useState(item.alert_active);
+
+  useEffect(() => {
+    setChecked(item.alert_active);
+  }, [item.alert_active]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nextChecked = e.target.checked;
+    setChecked(nextChecked);
+    onMutate({ id: item.id, alertActive: nextChecked, alertType: "restock" });
+  };
+
+  return (
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={handleChange}
+    />
+  );
+}
 
 function WishlistContent() {
   const { data, isLoading, isError, refetch } = useWishlist();
@@ -25,9 +56,9 @@ function WishlistContent() {
 
       {isError && (
         <div className="flex flex-col items-center gap-3 py-16 text-center">
-          <p className="text-sm font-medium">Gagal memuat data. Coba lagi.</p>
+          <p className="text-sm font-medium">Failed to load data. Please try again.</p>
           <Button size="sm" onClick={() => refetch()}>
-            Coba lagi
+            Try again
           </Button>
         </div>
       )}
@@ -35,9 +66,9 @@ function WishlistContent() {
       {!isLoading && !isError && data?.data.length === 0 && (
         <div className="flex flex-col items-center gap-3 py-16 text-center">
           <IconHeartOff size={32} />
-          <p className="text-sm font-medium">Belum ada sepatu yang disimpan</p>
+          <p className="text-sm font-medium">No saved sneakers yet</p>
           <Link href="/cari">
-            <Button size="sm">Mulai cari sepatu</Button>
+            <Button size="sm">Start browsing sneakers</Button>
           </Link>
         </div>
       )}
@@ -54,17 +85,11 @@ function WishlistContent() {
               </Link>
               <div className="flex items-center gap-3">
                 <label className="flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={item.alert_active}
-                    onChange={(e) =>
-                      setAlert.mutate({ id: item.id, alertActive: e.target.checked, alertType: "restock" })
-                    }
-                  />
+                  <WishlistAlertCheckbox item={item} onMutate={setAlert.mutate} />
                   Alert
                 </label>
                 <Button variant="ghost" size="sm" onClick={() => removeWishlist.mutate(item.id)}>
-                  Hapus
+                  Remove
                 </Button>
               </div>
             </div>

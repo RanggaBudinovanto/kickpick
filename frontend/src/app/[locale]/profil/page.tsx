@@ -61,7 +61,7 @@ function ProfileContent() {
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-6">
-      <h1 className="mb-6 font-display text-3xl font-bold tracking-[-0.01em]">Profil</h1>
+      <h1 className="mb-6 font-display text-3xl font-bold tracking-[-0.01em]">Profile</h1>
 
       <div className="max-w-md">
         <div className="mb-4">
@@ -72,29 +72,29 @@ function ProfileContent() {
         </div>
         <div className="mb-6">
           <label htmlFor="profile-name" className="mb-1.5 block text-sm font-medium">
-            Nama
+            Name
           </label>
           <Input id="profile-name" value={name} onChange={(e) => setName(e.target.value)} />
         </div>
 
         <div className="flex gap-3">
           <Button onClick={saveProfile} disabled={updateProfile.isPending}>
-            Simpan
+            Save
           </Button>
           <Button variant="secondary" onClick={() => logout.mutate()}>
-            Keluar
+            Log out
           </Button>
         </div>
 
         <div className="mt-10 border-t border-border pt-6">
           {!confirmingDelete ? (
             <Button variant="ghost" size="sm" onClick={() => setConfirmingDelete(true)}>
-              Hapus akun
+              Delete account
             </Button>
           ) : (
             <div>
               <p className="mb-3 text-sm font-medium">
-                Masukkan password untuk konfirmasi penghapusan akun. Tindakan ini tidak bisa dibatalkan.
+                Enter your password to confirm account deletion. This action cannot be undone.
               </p>
               <label htmlFor="profile-delete-password" className="sr-only">
                 Password
@@ -109,10 +109,10 @@ function ProfileContent() {
               />
               <div className="flex gap-3">
                 <Button variant="secondary" size="sm" onClick={confirmDelete} disabled={deleteAccount.isPending}>
-                  Konfirmasi hapus
+                  Confirm delete
                 </Button>
                 <Button variant="ghost" size="sm" onClick={() => setConfirmingDelete(false)}>
-                  Batal
+                  Cancel
                 </Button>
               </div>
             </div>

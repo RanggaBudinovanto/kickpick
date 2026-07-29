@@ -238,6 +238,10 @@ var nonFootwearKeywords = []string{
 	"crewneck", "hoodie", "jaket", "kaos", "kemeja", "celana",
 	"dompet", "tas", "topi", "belt", "wallet", "bag", "shirt",
 	"socks", "kaus kaki", "sarung tangan", "gloves", "sabuk",
+	"hat", "cap", "sandal", "sendal", "jersey", "tumbler", "botol",
+	"gantungan", "keychain", "sticker", "stiker", "pin", "totebag",
+	"tote bag", "masker", "mask", "payung", "umbrella", "scarf",
+	"syal", "ikat pinggang", "sunglasses", "kacamata",
 }
 
 func isNonFootwear(name string) bool {

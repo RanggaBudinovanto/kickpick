@@ -48,7 +48,7 @@ export function PriceComparison({ offers }: { offers: Offer[] }) {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <span className={`font-mono tabular-nums ${isCheapest ? "text-lg font-bold" : "text-sm"}`}>
+              <span className={`tabular-nums tracking-tight ${isCheapest ? "font-display text-xl font-bold" : "font-display text-sm font-semibold text-muted"}`}>
                 {formatPriceIn(offer.price, currency, rate?.rate)}
               </span>
               <Button

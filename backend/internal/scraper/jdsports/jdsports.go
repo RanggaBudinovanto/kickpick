@@ -24,6 +24,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"html"
 	"io"
 	"net/http"
 	"regexp"
@@ -182,7 +183,7 @@ func parseProductPage(body []byte, brandSlug string) (scraper.ScrapedProduct, er
 
 	imageURL := ""
 	if im := ogImageRe.FindSubmatch(body); im != nil {
-		imageURL = string(im[1])
+		imageURL = html.UnescapeString(string(im[1]))
 	}
 
 	productURL := "https://jdsports.id/product/" + dp.URLKey

@@ -18,8 +18,11 @@ export function ReviewSection({ productId, productSlug, reviews }: { productId: 
   const t = useTranslations("Product");
   const router = useRouter();
   const accessToken = useAuthStore((s) => s.accessToken);
+  const user = useAuthStore((s) => s.user);
   const createReview = useCreateReview(productSlug);
   const reportReview = useReportReview();
+
+  const hasReviewed = !!user && reviews.some((r) => r.user_id === user.id);
 
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
@@ -53,7 +56,7 @@ export function ReviewSection({ productId, productSlug, reviews }: { productId: 
       <div className="mb-4 flex items-center justify-between">
         <h2 className="font-display text-xl font-semibold">{t("reviews")}</h2>
         {accessToken ? (
-          !showForm && (
+          !hasReviewed && !showForm && (
             <Button size="sm" variant="secondary" onClick={() => setShowForm(true)}>
               {t("writeReview")}
             </Button>

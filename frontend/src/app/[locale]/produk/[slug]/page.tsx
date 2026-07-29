@@ -19,27 +19,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const data = await getProductDetail(slug);
 
   if (!data) {
-    return { title: "Produk tidak ditemukan | KickPick" };
+    return { title: "Product not found | KickPick" };
   }
 
   const { product, offers } = data;
   const prices = offers.map((o) => o.price);
   const description =
     prices.length > 0
-      ? `Bandingkan harga ${product.name} dari ${offers.length} toko, mulai ${formatPriceRange(Math.min(...prices), Math.max(...prices))}.`
-      : `Bandingkan harga ${product.name} dari berbagai toko di KickPick.`;
+      ? `Compare prices for ${product.name} from ${offers.length} stores, starting at ${formatPriceRange(Math.min(...prices), Math.max(...prices))}.`
+      : `Compare prices for ${product.name} from various stores on KickPick.`;
 
   return {
-    title:
-      locale === "en"
-        ? `${product.name} - Compare Prices | KickPick`
-        : `${product.name} - Bandingkan Harga | KickPick`,
+    title: `${product.name} - Compare Prices | KickPick`,
     description,
     alternates: {
       languages: {
         id: `/id/produk/${slug}`,
         en: `/en/produk/${slug}`,
-        "x-default": `/id/produk/${slug}`,
+        "x-default": `/en/produk/${slug}`,
       },
     },
     openGraph: {

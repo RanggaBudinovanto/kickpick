@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80">
+      <circle cx="35" cy="40" r="15" fill="black"/>
+      <path d="M 25 40 Q 35 30 45 40 Q 35 50 25 40 Z" fill="white"/>
+      <circle cx="32" cy="38" r="2" fill="black"/>
+      <text x="70" y="48" font-family="system-ui, sans-serif" font-size="24" font-weight="900" fill="black" letter-spacing="1">crocs</text>
+    </svg>

@@ -1,4 +1,4 @@
-const idrFormatter = new Intl.NumberFormat("id-ID", {
+const idrFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "IDR",
   maximumFractionDigits: 0,

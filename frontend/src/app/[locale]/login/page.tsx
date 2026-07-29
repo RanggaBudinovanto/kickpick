@@ -40,7 +40,7 @@ export default function LoginPage() {
       onError: (err) => {
         setShake(true);
         setTimeout(() => setShake(false), 300);
-        toast.error(err instanceof ApiError ? err.message : "Gagal masuk");
+        toast.error(err instanceof ApiError ? err.message : "Login failed");
       },
     });
   };

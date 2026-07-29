@@ -11,15 +11,21 @@ export class ApiError extends Error {
 }
 
 async function refreshAccessToken(): Promise<string | null> {
-  const res = await fetch(`${API_URL}/api/auth/refresh`, {
-    method: "POST",
-    credentials: "include",
-    headers: { "X-Requested-With": "kickpick" },
-  });
-  if (!res.ok) return null;
-  const data = await res.json();
-  useAuthStore.getState().setSession(data.access_token);
-  return data.access_token as string;
+  try {
+    const res = await fetch(`${API_URL}/api/auth/refresh`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "X-Requested-With": "kickpick" },
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    useAuthStore.getState().setSession(data.access_token);
+    return data.access_token as string;
+  } catch {
+    // Network error (backend down, CORS preflight failure, etc.) —
+    // treat as "no session" and continue silently.
+    return null;
+  }
 }
 
 interface ApiFetchOptions extends RequestInit {

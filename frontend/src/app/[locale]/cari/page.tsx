@@ -17,14 +17,14 @@ interface PageProps {
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const params = await searchParams;
   const title = params.q
-    ? `Cari "${params.q}" | KickPick`
-    : "Cari Sepatu - Bandingkan Harga Semua Brand | KickPick";
+    ? `Search "${params.q}" | KickPick`
+    : "Search Sneakers - Compare Prices Across All Brands | KickPick";
 
   return {
     title,
-    description: "Cari dan bandingkan harga sepatu dari brand lokal dan internasional di KickPick.",
+    description: "Search and compare sneaker prices from local and international brands on KickPick.",
     alternates: {
-      languages: { id: "/id/cari", en: "/en/cari", "x-default": "/id/cari" },
+      languages: { id: "/id/cari", en: "/en/cari", "x-default": "/en/cari" },
     },
   };
 }
@@ -52,12 +52,12 @@ export default async function SearchPage({ searchParams }: PageProps) {
       </aside>
 
       <div className="flex-1">
-        <p className="mb-4 text-sm text-muted">{products.length} sepatu ditemukan</p>
+        <p className="mb-4 text-sm text-muted">{products.length} sneakers found</p>
 
         {products.length === 0 && (
           <div className="flex flex-col items-center gap-3 py-16 text-center">
             <IconSearchOff size={32} />
-            <p className="text-sm font-medium">Tidak ada sepatu yang cocok dengan filter ini</p>
+            <p className="text-sm font-medium">No sneakers match this filter</p>
             <ResetFilterLink />
           </div>
         )}
