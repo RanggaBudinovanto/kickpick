@@ -29,8 +29,8 @@ export function PriceDropSpotlight({ products }: { products: Product[] }) {
       </div>
 
       {/* Product Cards Grid */}
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        {products.slice(0, 4).map((product) => (
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        {products.slice(0, 5).map((product) => (
           <ProductCard
             key={product.id}
             product={product}

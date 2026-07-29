@@ -135,17 +135,17 @@ func seedProducts(ctx context.Context, pool *pgxpool.Pool, brandIDs map[string]u
 		{seedProduct{"adidas", "Adidas Samba OG", "adidas-samba-og", "lifestyle", false, 1899000}, "https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=800&q=80"},
 		{seedProduct{"adidas", "Adidas Ultraboost Light", "adidas-ultraboost-light", "running", false, 3299000}, "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?auto=format&fit=crop&w=800&q=80"},
 		{seedProduct{"adidas", "Adidas Stan Smith", "adidas-stan-smith", "lifestyle", false, 1599000}, "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?auto=format&fit=crop&w=800&q=80"},
-		{seedProduct{"vans", "Vans Old Skool", "vans-old-skool", "lifestyle", false, 899000}, "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=800&q=80"},
-		{seedProduct{"vans", "Vans Authentic", "vans-authentic", "lifestyle", false, 799000}, "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=800&q=80"},
+		{seedProduct{"vans", "Vans Old Skool", "vans-old-skool", "lifestyle", false, 899000}, "https://images.unsplash.com/photo-1562183241-b937e95585b6?auto=format&fit=crop&w=800&q=80"},
+		{seedProduct{"vans", "Vans Authentic", "vans-authentic", "lifestyle", false, 799000}, "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=800&q=80"},
 		{seedProduct{"puma", "Puma Suede Classic", "puma-suede-classic", "lifestyle", false, 1299000}, "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80"},
-		{seedProduct{"puma", "Puma RS-X", "puma-rs-x", "lifestyle", false, 1499000}, "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80"},
+		{seedProduct{"puma", "Puma RS-X", "puma-rs-x", "lifestyle", false, 1499000}, "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=800&q=80"},
 		{seedProduct{"new-balance", "New Balance 574", "new-balance-574", "lifestyle", false, 1399000}, "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80"},
-		{seedProduct{"new-balance", "New Balance 990v6", "new-balance-990v6", "running", true, 3999000}, "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80"},
-		{seedProduct{"asics", "Asics Gel-Kayano 30", "asics-gel-kayano-30", "running", false, 2799000}, "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80"},
+		{seedProduct{"new-balance", "New Balance 990v6", "new-balance-990v6", "running", true, 3999000}, "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=800&q=80"},
+		{seedProduct{"asics", "Asics Gel-Kayano 30", "asics-gel-kayano-30", "running", false, 2799000}, "https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?auto=format&fit=crop&w=800&q=80"},
 		{seedProduct{"jordan", "Air Jordan 1 Retro High OG", "air-jordan-1-retro-high-og", "lifestyle", true, 3499000}, "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80"},
 		{seedProduct{"jordan", "Air Jordan 4 Retro", "air-jordan-4-retro", "lifestyle", true, 4299000}, "https://images.unsplash.com/photo-1516478177764-9fe5bd7e9717?auto=format&fit=crop&w=800&q=80"},
 		{seedProduct{"brodo", "Brodo Sella Oxford", "brodo-sella-oxford", "formal", false, 849000}, "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=800&q=80"},
-		{seedProduct{"brodo", "Brodo Lana Derby", "brodo-lana-derby", "formal", false, 949000}, "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=800&q=80"},
+		{seedProduct{"brodo", "Brodo Lana Derby", "brodo-lana-derby", "formal", false, 949000}, "https://images.unsplash.com/photo-1533867617858-e7b97e060509?auto=format&fit=crop&w=800&q=80"},
 	}
 
 	storeList := make([]uuid.UUID, 0, len(storeIDs))
@@ -235,10 +235,6 @@ func nullIfEmpty(s string) any {
 		return nil
 	}
 	return s
-}
-
-func mustExec(ctx context.Context, pool *pgxpool.Pool, sql string, args ...any) {
-	mustExecPool(ctx, pool, sql, args...)
 }
 
 func mustExecPool(ctx context.Context, pool *pgxpool.Pool, sql string, args ...any) {

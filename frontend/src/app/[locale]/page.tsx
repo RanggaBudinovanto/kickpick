@@ -82,48 +82,22 @@ function hasRealImage(product: Product): boolean {
 }
 
 const FEATURED_BRAND_FALLBACKS: CuratedTile[] = [
-  {
-    brandName: "Nike",
-    brandSlug: "nike",
-    imageUrl: "/brands/nike.png",
-    logoUrl: "/brands/nike.svg",
-    accentColor: "#f97316",
-  },
-  {
-    brandName: "Adidas",
-    brandSlug: "adidas",
-    imageUrl: "/hero/slide-1.png",
-    logoUrl: "/brands/adidas.svg",
-    accentColor: "#3b82f6",
-  },
-  {
-    brandName: "Puma",
-    brandSlug: "puma",
-    imageUrl: "/hero/slide-2.png",
-    logoUrl: "/brands/puma.svg",
-    accentColor: "#ef4444",
-  },
-  {
-    brandName: "Jordan",
-    brandSlug: "jordan",
-    imageUrl: "/hero/slide-3.png",
-    logoUrl: "/brands/jordan.svg",
-    accentColor: "#ef4444",
-  },
-  {
-    brandName: "New Balance",
-    brandSlug: "new-balance",
-    imageUrl: "/hero/trending-banner.png",
-    logoUrl: "/brands/new-balance.svg",
-    accentColor: "#6366f1",
-  },
-  {
-    brandName: "Vans",
-    brandSlug: "vans",
-    imageUrl: "/hero/category-lifestyle.png",
-    logoUrl: "/brands/vans.svg",
-    accentColor: "#a3a3a3",
-  },
+  { brandName: "Nike", brandSlug: "nike", imageUrl: "/brands/nike.png", logoUrl: "/brands/nike.svg", accentColor: "#f97316" },
+  { brandName: "Adidas", brandSlug: "adidas", imageUrl: "/hero/slide-1.png", logoUrl: "/brands/adidas.svg", accentColor: "#3b82f6" },
+  { brandName: "Puma", brandSlug: "puma", imageUrl: "/hero/slide-2.png", logoUrl: "/brands/puma.svg", accentColor: "#ef4444" },
+  { brandName: "Jordan", brandSlug: "jordan", imageUrl: "/hero/slide-3.png", logoUrl: "/brands/jordan.svg", accentColor: "#ef4444" },
+  { brandName: "New Balance", brandSlug: "new-balance", imageUrl: "/hero/trending-banner.png", logoUrl: "/brands/new-balance.svg", accentColor: "#6366f1" },
+  { brandName: "Vans", brandSlug: "vans", imageUrl: "/hero/category-lifestyle.png", logoUrl: "/brands/vans.svg", accentColor: "#a3a3a3" },
+  { brandName: "Asics", brandSlug: "asics", imageUrl: "/hero/category-running.png", logoUrl: "/brands/asics.svg", accentColor: "#3b82f6" },
+  { brandName: "Mizuno", brandSlug: "mizuno", imageUrl: "/hero/slide-1.png", logoUrl: "/brands/mizuno.svg", accentColor: "#1e40af" },
+  { brandName: "Crocs", brandSlug: "crocs", imageUrl: "/hero/slide-2.png", logoUrl: "/brands/crocs.svg", accentColor: "#22c55e" },
+  { brandName: "On", brandSlug: "on", imageUrl: "/hero/slide-3.png", logoUrl: "/brands/on.svg", accentColor: "#f59e0b" },
+  { brandName: "Under Armour", brandSlug: "under-armour", imageUrl: "/hero/trending-banner.png", logoUrl: "/brands/under-armour.svg", accentColor: "#2563eb" },
+  { brandName: "Compass", brandSlug: "compass", imageUrl: "/hero/slide-3.png", logoUrl: "/brands/compass.svg", accentColor: "#64748b" },
+  { brandName: "Ventela", brandSlug: "ventela", imageUrl: "/brands/ventela.png", logoUrl: "/brands/ventela.svg", accentColor: "#8b5cf6" },
+  { brandName: "Aerostreet", brandSlug: "aerostreet", imageUrl: "/brands/aerostreet.png", logoUrl: "/brands/aerostreet.svg", accentColor: "#10b981" },
+  { brandName: "Brodo", brandSlug: "brodo", imageUrl: "/hero/slide-2.png", logoUrl: "/brands/brodo.svg", accentColor: "#92400e" },
+  { brandName: "Geoff Max", brandSlug: "geoff-max", imageUrl: "/brands/geoff-max.png", logoUrl: "/brands/geoffmax.svg", accentColor: "#7c3aed" },
 ];
 
 // Local mapping: brand slug → official logo SVG + accent colour.
@@ -153,7 +127,7 @@ const BRAND_LOGO_MAP: Record<string, { logoUrl: string; accentColor: string }> =
 function buildCuratedTiles(
   productLists: Product[][],
   brandLogoUrlMap: Record<string, string>,
-  max: number = 6,
+  max: number = 10,
 ): CuratedTile[] {
   const seen = new Set<string>();
   const tiles: CuratedTile[] = [];
@@ -172,7 +146,7 @@ function buildCuratedTiles(
         imageUrl: product.image_url,
         logoUrl,
         accentColor: localLogo?.accentColor,
-        wide: tiles.length === 0 || tiles.length === 5,
+        wide: false,
       });
       if (tiles.length >= max) return tiles;
     }
@@ -184,7 +158,7 @@ function buildCuratedTiles(
       seen.add(fallback.brandSlug);
       tiles.push({
         ...fallback,
-        wide: tiles.length === 0 || tiles.length === 5,
+        wide: false,
       });
     }
   }
@@ -198,22 +172,22 @@ export default async function HomePage() {
 
   const [brands, rawBestSellers, trending, rare, priceDrops, newArrivals] = await Promise.all([
     safeBrands(),
-    safeProducts(getProducts({ limit: 24 })),   // fetch more so diversify has enough variety
-    getTrending(8),
-    safeProducts(getProducts({ filter: "rare", limit: 8 })),
-    getPriceDrops(8),
-    safeProducts(getProducts({ limit: 8 })),
+    safeProducts(getProducts({ limit: 30 })),   // fetch more so diversify has enough variety
+    getTrending(10),
+    safeProducts(getProducts({ filter: "rare", limit: 10 })),
+    getPriceDrops(10),
+    safeProducts(getProducts({ limit: 10 })),
   ]);
 
-  // Max 2 per brand, international brands shown first
-  const bestSellers = diversifyBestSellers(rawBestSellers, brands, 8, 2);
+  // Max 2 per brand, international brands shown first, 10 items (2 rows of 5)
+  const bestSellers = diversifyBestSellers(rawBestSellers, brands, 10, 2);
 
   // Build slug → logo_url map from fetched brands (used to enrich curated tiles)
   const brandLogoUrlMap = Object.fromEntries(
     brands.filter((b) => b.logo_url).map((b) => [b.slug, b.logo_url]),
   );
 
-  const curatedTiles = buildCuratedTiles([trending, bestSellers, rare, priceDrops], brandLogoUrlMap, 6);
+  const curatedTiles = buildCuratedTiles([trending, bestSellers, rare, priceDrops], brandLogoUrlMap, 10);
 
   return (
     <>
@@ -278,7 +252,7 @@ export default async function HomePage() {
               Explore All →
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
             {bestSellers.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

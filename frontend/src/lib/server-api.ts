@@ -23,6 +23,8 @@ export interface GetProductsParams {
   kategori?: string;
   brand_ids?: string;
   filter?: string;
+  min_price?: string | number;
+  max_price?: string | number;
   limit?: number;
 }
 
@@ -61,17 +63,25 @@ export async function getBrandDetail(
 }
 
 export async function getTrending(limit = 8): Promise<Product[]> {
-  const res = await fetch(`${API_URL}/api/products/trending?limit=${limit}`, { cache: "no-store" });
-  if (!res.ok) return [];
-  const data: { data: Product[] } = await res.json();
-  return data.data;
+  try {
+    const res = await fetch(`${API_URL}/api/products/trending?limit=${limit}`, { cache: "no-store" });
+    if (!res.ok) return [];
+    const data: { data: Product[] } = await res.json();
+    return data.data;
+  } catch {
+    return [];
+  }
 }
 
 export async function getPriceDrops(
   limit = 8,
 ): Promise<(Product & { drop_percent: number })[]> {
-  const res = await fetch(`${API_URL}/api/products/price-drops?limit=${limit}`, { cache: "no-store" });
-  if (!res.ok) return [];
-  const data: { data: (Product & { drop_percent: number })[] } = await res.json();
-  return data.data;
+  try {
+    const res = await fetch(`${API_URL}/api/products/price-drops?limit=${limit}`, { cache: "no-store" });
+    if (!res.ok) return [];
+    const data: { data: (Product & { drop_percent: number })[] } = await res.json();
+    return data.data;
+  } catch {
+    return [];
+  }
 }

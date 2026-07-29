@@ -258,18 +258,22 @@ WHERE ($1::uuid IS NULL OR p.brand_id = $1)
   AND ($4::boolean IS NULL OR p.is_limited = $4)
   AND ($5::text IS NULL OR p.name ILIKE '%' || $5 || '%')
 GROUP BY p.id, b.name, b.slug
+HAVING ($6::numeric IS NULL OR (MIN(po.price) IS NOT NULL AND MIN(po.price) >= $6))
+   AND ($7::numeric IS NULL OR (MIN(po.price) IS NOT NULL AND MIN(po.price) <= $7))
 ORDER BY p.created_at DESC
-LIMIT $7 OFFSET $6
+LIMIT $9 OFFSET $8
 `
 
 type ListProductsParams struct {
-	BrandID    pgtype.UUID   `json:"brand_id"`
-	BrandIds   []pgtype.UUID `json:"brand_ids"`
-	Category   pgtype.Text   `json:"category"`
-	IsLimited  pgtype.Bool   `json:"is_limited"`
-	Search     pgtype.Text   `json:"search"`
-	PageOffset int32         `json:"page_offset"`
-	PageLimit  int32         `json:"page_limit"`
+	BrandID    pgtype.UUID    `json:"brand_id"`
+	BrandIds   []pgtype.UUID  `json:"brand_ids"`
+	Category   pgtype.Text    `json:"category"`
+	IsLimited  pgtype.Bool    `json:"is_limited"`
+	Search     pgtype.Text    `json:"search"`
+	MinPrice   pgtype.Numeric `json:"min_price"`
+	MaxPrice   pgtype.Numeric `json:"max_price"`
+	PageOffset int32          `json:"page_offset"`
+	PageLimit  int32          `json:"page_limit"`
 }
 
 type ListProductsRow struct {
@@ -297,6 +301,8 @@ func (q *Queries) ListProducts(ctx context.Context, arg ListProductsParams) ([]L
 		arg.Category,
 		arg.IsLimited,
 		arg.Search,
+		arg.MinPrice,
+		arg.MaxPrice,
 		arg.PageOffset,
 		arg.PageLimit,
 	)

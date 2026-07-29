@@ -17,6 +17,8 @@ WHERE (sqlc.narg('brand_id')::uuid IS NULL OR p.brand_id = sqlc.narg('brand_id')
   AND (sqlc.narg('is_limited')::boolean IS NULL OR p.is_limited = sqlc.narg('is_limited'))
   AND (sqlc.narg('search')::text IS NULL OR p.name ILIKE '%' || sqlc.narg('search') || '%')
 GROUP BY p.id, b.name, b.slug
+HAVING (sqlc.narg('min_price')::numeric IS NULL OR (MIN(po.price) IS NOT NULL AND MIN(po.price) >= sqlc.narg('min_price')))
+   AND (sqlc.narg('max_price')::numeric IS NULL OR (MIN(po.price) IS NOT NULL AND MIN(po.price) <= sqlc.narg('max_price')))
 ORDER BY p.created_at DESC
 LIMIT sqlc.arg('page_limit') OFFSET sqlc.arg('page_offset');
 

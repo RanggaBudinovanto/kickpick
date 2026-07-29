@@ -11,6 +11,8 @@ interface PageProps {
     kategori?: string;
     brand_ids?: string;
     filter?: string;
+    min_price?: string;
+    max_price?: string;
   }>;
 }
 
@@ -38,6 +40,8 @@ export default async function SearchPage({ searchParams }: PageProps) {
       kategori: params.kategori,
       brand_ids: params.brand_ids,
       filter: params.filter,
+      min_price: params.min_price,
+      max_price: params.max_price,
       limit: 24,
     }),
     getBrands(),

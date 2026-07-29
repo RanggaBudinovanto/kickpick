@@ -117,17 +117,22 @@ func (h *ProductHandler) ListProducts(c *fiber.Ctx) error {
 		PageLimit:  int32(limit),
 	}
 
-	if brandSlug := c.Query("brand_id"); brandSlug != "" {
-		if id, err := uuid.Parse(brandSlug); err == nil {
+	if brandVal := c.Query("brand_id"); brandVal != "" {
+		if id, err := uuid.Parse(brandVal); err == nil {
 			arg.BrandID = dbutil.UUID(id)
+		} else if b, err := h.Queries.GetBrandBySlug(ctx, brandVal); err == nil {
+			arg.BrandID = b.ID
 		}
 	}
 	if brandIDs := c.Query("brand_ids"); brandIDs != "" {
 		parts := strings.Split(brandIDs, ",")
 		ids := make([]pgtype.UUID, 0, len(parts))
 		for _, p := range parts {
-			if id, err := uuid.Parse(strings.TrimSpace(p)); err == nil {
+			trimmed := strings.TrimSpace(p)
+			if id, err := uuid.Parse(trimmed); err == nil {
 				ids = append(ids, dbutil.UUID(id))
+			} else if b, err := h.Queries.GetBrandBySlug(ctx, trimmed); err == nil {
+				ids = append(ids, b.ID)
 			}
 		}
 		if len(ids) > 0 {
@@ -142,6 +147,16 @@ func (h *ProductHandler) ListProducts(c *fiber.Ctx) error {
 	}
 	if search := c.Query("q"); search != "" {
 		arg.Search = dbutil.Text(search)
+	}
+	if minPriceStr := c.Query("min_price"); minPriceStr != "" {
+		if val, err := strconv.ParseFloat(minPriceStr, 64); err == nil {
+			arg.MinPrice = dbutil.Float64ToNumeric(val)
+		}
+	}
+	if maxPriceStr := c.Query("max_price"); maxPriceStr != "" {
+		if val, err := strconv.ParseFloat(maxPriceStr, 64); err == nil {
+			arg.MaxPrice = dbutil.Float64ToNumeric(val)
+		}
 	}
 
 	products, err := h.Queries.ListProducts(ctx, arg)

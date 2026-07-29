@@ -62,9 +62,10 @@ func New(cfg *config.Config, pool *pgxpool.Pool) *fiber.App {
 		ReferrerPolicy:        "strict-origin-when-cross-origin",
 	}))
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     cfg.CORSAllowedOrigin,
+		AllowOrigins:     "http://localhost:3000, http://127.0.0.1:3000, " + cfg.CORSAllowedOrigin,
 		AllowCredentials: true,
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, X-Requested-With",
+		AllowMethods:     "GET, POST, HEAD, PUT, DELETE, PATCH, OPTIONS",
 	}))
 	if cfg.RedisURL != "" {
 		log.Println("rate limiting: using Redis-backed storage")

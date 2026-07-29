@@ -71,7 +71,7 @@ export default async function LocaleLayout({
       className={`${barlow.variable} ${barlowCondensed.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+        <ThemeProvider defaultTheme="light">
           <NextIntlClientProvider>
             <Providers>
               <Navbar />

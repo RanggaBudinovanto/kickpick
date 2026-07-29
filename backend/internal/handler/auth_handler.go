@@ -86,17 +86,12 @@ func (h *AuthHandler) Register(c *fiber.Ctx) error {
 	}
 
 	rawToken, tokenHash, err := auth.GenerateOpaqueToken()
-	if err != nil {
-		return serverError(c, err)
-	}
-
-	_, err = h.Queries.CreateEmailVerificationToken(ctx, sqlc.CreateEmailVerificationTokenParams{
-		UserID:    user.ID,
-		TokenHash: tokenHash,
-		ExpiresAt: dbutil.Timestamptz(time.Now().Add(24 * time.Hour)),
-	})
-	if err != nil {
-		return serverError(c, err)
+	if err == nil {
+		_, _ = h.Queries.CreateEmailVerificationToken(ctx, sqlc.CreateEmailVerificationTokenParams{
+			UserID:    user.ID,
+			TokenHash: tokenHash,
+			ExpiresAt: dbutil.Timestamptz(time.Now().Add(24 * time.Hour)),
+		})
 	}
 
 	go func() {
@@ -329,5 +324,6 @@ func badRequest(c *fiber.Ctx, message string) error {
 }
 
 func serverError(c *fiber.Ctx, err error) error {
+	log.Printf("[AUTH ERROR] %v", err)
 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "terjadi kesalahan di server"})
 }

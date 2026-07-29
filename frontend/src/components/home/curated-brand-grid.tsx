@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { IconArrowUpRight } from "@tabler/icons-react";
 
 export interface CuratedTile {
   brandName: string;
@@ -35,7 +34,7 @@ export function CuratedBrandGrid({ title, tiles }: CuratedBrandGridProps) {
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {tiles.map((tile) => {
           const hasLogo = Boolean(tile.logoUrl);
 
@@ -43,81 +42,32 @@ export function CuratedBrandGrid({ title, tiles }: CuratedBrandGridProps) {
             <Link
               key={tile.brandSlug}
               href={`/brand/${tile.brandSlug}`}
-              className={`group relative overflow-hidden rounded-2xl border border-border/50 shadow-sm transition-all duration-500 hover:shadow-xl ${
-                tile.wide ? "col-span-2 aspect-[2/1]" : "col-span-1 aspect-square"
-              } ${hasLogo ? "bg-neutral-950" : "bg-surface"}`}
+              className="group relative flex aspect-[16/9] items-center justify-center overflow-hidden rounded-2xl border border-border/80 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-border-hover hover:shadow-md"
             >
-              {hasLogo ? (
-                /* ── Logo-on-dark layout ── */
-                <>
-                  {/* Subtle accent glow */}
-                  {tile.accentColor && (
-                    <div
-                      className="pointer-events-none absolute inset-0 opacity-20 transition-opacity duration-500 group-hover:opacity-35"
-                      style={{
-                        background: `radial-gradient(ellipse at center, ${tile.accentColor} 0%, transparent 70%)`,
-                      }}
-                    />
-                  )}
-
-                  {/* Official brand logo — centred, white-filtered */}
-                  <div className="absolute inset-0 flex items-center justify-center p-8 md:p-10">
-                    <Image
-                      src={tile.logoUrl!}
-                      alt={tile.brandName}
-                      fill
-                      sizes={tile.wide ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
-                      className="object-contain p-8 md:p-12 brightness-0 invert opacity-80 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105"
-                    />
-                  </div>
-
-                  {/* Bottom label */}
-                  <div className="absolute inset-x-4 bottom-4 flex items-center justify-between text-white">
-                    <div>
-                      <span className="block text-[10px] font-mono font-medium uppercase tracking-widest text-white/50">
-                        Featured Brand
-                      </span>
-                      <p className="font-display text-lg font-bold uppercase tracking-tight text-white md:text-xl">
-                        {tile.brandName}
-                      </p>
-                    </div>
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-md transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:bg-white group-hover:text-black">
-                      <IconArrowUpRight className="h-4 w-4" />
-                    </div>
-                  </div>
-                </>
-              ) : (
-                /* ── Full-bleed product photo layout (fallback) ── */
-                <>
-                  {tile.imageUrl && (
-                    <Image
-                      src={tile.imageUrl}
-                      alt={tile.brandName}
-                      fill
-                      sizes={tile.wide ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
-                      className="object-cover opacity-85 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
-                    />
-                  )}
-
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/5 transition-opacity duration-300 group-hover:opacity-90" />
-
-                  {/* Brand title & icon */}
-                  <div className="absolute inset-x-4 bottom-4 flex items-center justify-between text-white">
-                    <div>
-                      <span className="block text-[10px] font-mono font-medium uppercase tracking-widest text-white/70">
-                        Featured Brand
-                      </span>
-                      <p className="font-display text-xl font-bold uppercase tracking-tight text-white md:text-2xl">
-                        {tile.brandName}
-                      </p>
-                    </div>
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:bg-white group-hover:text-black">
-                      <IconArrowUpRight className="h-4 w-4" />
-                    </div>
-                  </div>
-                </>
-              )}
+              {/* Official brand logo — only logo */}
+              <div className="relative h-12 w-full">
+                {hasLogo ? (
+                  <Image
+                    src={tile.logoUrl!}
+                    alt={tile.brandName}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 20vw"
+                    className="object-contain dark:invert opacity-80 transition-all duration-300 group-hover:opacity-100 group-hover:scale-105"
+                  />
+                ) : tile.imageUrl ? (
+                  <Image
+                    src={tile.imageUrl}
+                    alt={tile.brandName}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 20vw"
+                    className="object-cover opacity-85 transition-transform duration-300 group-hover:scale-105"
+                  />
+                ) : (
+                  <span className="font-display text-base font-bold tracking-tight text-foreground/80">
+                    {tile.brandName}
+                  </span>
+                )}
+              </div>
             </Link>
           );
         })}

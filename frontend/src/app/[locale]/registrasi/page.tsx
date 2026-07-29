@@ -40,8 +40,9 @@ export default function RegisterPage() {
   const onSubmit = (values: FormValues) => {
     register_.mutate(values, {
       onSuccess: () => setSubmitted(true),
-      onError: (err) => {
-        toast.error(err instanceof ApiError ? err.message : "Registrasi gagal");
+      onError: (err: any) => {
+        const msg = err?.message || "Registrasi gagal";
+        toast.error(msg);
       },
     });
   };
